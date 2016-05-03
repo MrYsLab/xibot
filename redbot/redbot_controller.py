@@ -21,7 +21,8 @@ import math
 from pymata_aio.constants import Constants
 from pymata_aio.pymata_core import PymataCore
 
-from .redbot_accel import RedBotAccel
+# noinspection PyUnresolvedReferences,PyUnresolvedReferences
+from redbot_accel import RedBotAccel
 
 
 # noinspection PyPep8

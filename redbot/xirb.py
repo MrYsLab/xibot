@@ -25,7 +25,8 @@ import zmq
 from pymata_aio.pymata_core import PymataCore
 from xideco.xidekit.xidekit import XideKit
 
-from redbot.redbot_controller import RedBotController
+# noinspection PyUnresolvedReferences,PyUnresolvedReferences
+from redbot_controller import RedBotController
 
 
 # noinspection PyPep8Naming,PyPep8,PyUnresolvedReferences
@@ -99,7 +100,7 @@ class XIRB(XideKit):
             if next_message:
                 self.loop.run_until_complete(self.incoming_message_processing(next_message[0], next_message[1]))
 
-            # retrieve the accelorometer data within this loop
+            # retrieve the accelerometer data within this loop
             self.loop.run_until_complete(self.rb_control.get_accel_data())
 
     async def get_next_message(self):
@@ -135,7 +136,7 @@ class XIRB(XideKit):
 
     async def incoming_message_processing(self, topic, payload):
         """
-        This is the incoming message processor. It derefernces the command field from the payload and dispatches
+        This is the incoming message processor. It dereferences the command field from the payload and dispatches
         the appropriate method to handle the command.
         :param topic: topic string
         :param payload: message data
