@@ -1,0 +1,127 @@
+#:kivy 1.9.1
+
+<MainWidget>:
+    # create a main widget that is the size of the root
+    # we will add things vertically to this boxlayout.
+    # all additions are placed in horizontal boxlayouts and then added to this layout.
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+
+        # set title
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: 5
+            Label:
+                text: 'Motor Control'
+                font_size: 40
+
+        # Spin Buttons
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: 6
+            # set size to fill entire screen
+            # size: root.size
+            Label:
+            Button:
+                text: "Spin Left"
+            Label:
+                background_color: (0.0, 0.0, 0.0, 1.0)
+            Label:
+                background_color: (0.0, 0.0, 0.0, 1.0)
+            Button:
+                text: "Spin Right"
+            Label:
+
+        # allow some space - probably a better way to do this
+        BoxLayout:
+            padding: 6
+
+        # add the forward button
+
+        BoxLayout:
+            padding: 10
+            orientation: 'horizontal'
+            Label:
+            Button:
+                text: 'Forward'
+            Label:
+
+        # add left, stop and right buttons
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: 6
+
+            Label:
+            Button:
+                text: "Left"
+            Label:
+                background_color: (0.0, 0.0, 0.0, 1.0)
+            Button:
+                text: "Stop"
+                background_color: (4.0, 0.0, 0.0, 1.0)
+            Label:
+                background_color: (0.0, 0.0, 0.0, 1.0)
+            Button:
+                text: "Right"
+            Label:
+
+        # add the reverse button
+        BoxLayout:
+            padding: 10
+            orientation: 'horizontal'
+            Label:
+            Button:
+                text: 'Reverse'
+            Label:
+
+        # some more spacing
+        BoxLayout:
+            padding: 40
+
+        # add the 2 rotary speed knobs
+        BoxLayout:
+            #padding: 30
+            spacing: 100
+            Label:
+            Knob:
+                size: 100, 100
+                min: 0
+                max: 100
+                step: 1
+                value: 0  # Default position of knob.
+                knobimg_source: "img/knob_metal.png"  # Knob texture
+                show_label: True  # Show central label
+                show_marker: True  # Show surrounding marker
+                marker_img: "img/bline.png" # Marker texture image
+                knob_size: 0.9  # Scales knob size to leave space for marker
+                markeroff_color: 0, 0, 0, 0
+
+            # spacing - again, there is probably a better way to do this
+            Label:
+            Label:
+
+            Knob:
+                size: 100, 100
+                min: 0
+                max: 100
+                step: 1
+                value: 0  # Default position of knob.
+                knobimg_source: "img/knob_metal.png"  # Knob texture
+                show_label: True  # Show central label
+                show_marker: True  # Show surrounding marker
+                marker_img: "img/bline.png" # Marker texture image
+                knob_size: 0.9  # Scales knob size to leave space for marker
+                markeroff_color: 0, 0, 0, 0
+            Label:
+
+        # add the labels for the knobs
+        BoxLayout:
+            spacing: 100
+
+            Label:
+                text: 'Forward/Reverse Speed'
+            Label:
+                text: 'Turn/Spin Speed'
+
+
