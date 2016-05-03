@@ -158,13 +158,13 @@ class Xitk(XideKit):
 
         # get all the images
 
-        self.spin_left_image = PhotoImage(file="../gui/xitk/images/spin_left.gif")
-        self.spin_right_image = PhotoImage(file="../gui/xitk/images/spin_right.gif")
-        self.stop_image = PhotoImage(file="../gui/xitk/images/stop3.gif")
-        self.right_image = PhotoImage(file="../gui/xitk/images/right.gif")
-        self.left_image = PhotoImage(file="../gui/xitk/images/left.gif")
-        self.forward_image = PhotoImage(file="../gui/xitk/images/forward.gif")
-        self.reverse_image = PhotoImage(file="../gui/xitk/images/reverse.gif")
+        self.spin_left_image = PhotoImage(file="../xitk/images/spin_left.gif")
+        self.spin_right_image = PhotoImage(file="../xitk/images/spin_right.gif")
+        self.stop_image = PhotoImage(file="../xitk/images/stop3.gif")
+        self.right_image = PhotoImage(file="../xitk/images/right.gif")
+        self.left_image = PhotoImage(file="../xitk/images/left.gif")
+        self.forward_image = PhotoImage(file="../xitk/images/forward.gif")
+        self.reverse_image = PhotoImage(file="../xitk/images/reverse.gif")
 
         # a reference to encoder_count_spinbox in the right panel
         self.spinbox = None
