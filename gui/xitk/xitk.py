@@ -45,6 +45,7 @@ class Xitk(XideKit):
         :param publisher_port: Xideco Router publisher port
         """
 
+        print('\nXiBot tkinter GUI - xitk')
         super().__init__(router_ip_address, subscriber_port, publisher_port)
 
         # subscribe to all topics specified
