@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Copyright (c) 2015 Alan Yorinks All rights reserved.
 
@@ -17,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 import time
+import sys
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
@@ -758,4 +761,7 @@ class Xitk(XideKit):
 
 
 if __name__ == "__main__":
-    gui = Xitk()
+    if len(sys.argv) == 1:
+        gui = Xitk()
+    else:
+        gui = Xitk(router_ip_address=sys.argv[1])
