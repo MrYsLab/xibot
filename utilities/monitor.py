@@ -21,6 +21,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 import sys
+import signal
+import argparse
 
 from xideco.xidekit.xidekit import XideKit
 
@@ -34,6 +36,8 @@ class MyMonitor(XideKit):
         :param publisher_port: Xideco router publisher port. This must match that of the Xideco router
         :return:
         """
+        print('\nXiBot Monitor - monitor')
+
         super().__init__(router_ip_address, subscriber_port, publisher_port)
 
     def incoming_message_processing(self, topic, payload):
@@ -46,10 +50,41 @@ class MyMonitor(XideKit):
         print(topic, payload)
 
 
-if __name__ == '__main__':
+def start_monitor():
+    """
+    Main function for the monitor
+    :return:
+    """
+    # noinspection PyShadowingNames
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-r', dest='router_ip_address', default='None', help='Router IP Address')
+
+    args = parser.parse_args()
+    kw_options = {}
+
+    if args.router_ip_address != "None":
+        kw_options['router_ip_address'] = args.router_ip_address
+
+    my_mon = MyMonitor(**kw_options)
+    my_mon.set_subscriber_topic('')
+    my_mon.receive_loop()
+
+    # signal handler function called when Control-C occurs
+    # noinspection PyShadowingNames,PyUnusedLocal,PyUnusedLocal
+    def signal_handler(signal, frame):
+        print("Control-C detected. See you soon.")
+        sys.exit(0)
+
+    # listen for SIGINT
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+
+if __name__ == "__main__":
+
     try:
-        my_mon = MyMonitor()
-        my_mon.set_subscriber_topic('')
-        my_mon.receive_loop()
+        start_monitor()
     except KeyboardInterrupt:
         sys.exit(0)
