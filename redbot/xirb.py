@@ -18,7 +18,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
+import signal
 import sys
+import argparse
 import asyncio
 
 import umsgpack
@@ -35,6 +37,7 @@ class XIRB(XideKit):
     """
     This class is the RedBot controller class
     """
+
     def __init__(self, **kwargs):
         """
         This method sets up all provided parameters. The default values assume that this class will be run
@@ -57,7 +60,6 @@ class XIRB(XideKit):
         # setup all of the properties
         for (prop, default) in prop_defaults.items():
             setattr(self, prop, kwargs.get(prop, default))
-
 
         # initialize the XideKit parent class
         super(XIRB, self).__init__(self.router_ip_address, self.subscriber_port, self.publisher_port)
@@ -90,7 +92,6 @@ class XIRB(XideKit):
         directly without having to worry about the asyncio event loop.
         :return: Never Returns
         """
-
 
         while True:
             # retrieve the next XiBot message
@@ -216,15 +217,60 @@ class XIRB(XideKit):
             await(self.rb_control.motor_control(self.rb_control.LEFT_MOTOR,
                                                 self.rb_control.COAST, 0))
 
-if __name__ == '__main__':
-    my_robot = None
 
-    if len(sys.argv) == 1:
-        my_robot = XIRB()
-    elif len(sys.argv) == 2:
-        my_robot = XIRB(arduino_ip_address=sys.argv[1])
-    elif len(sys.argv) == 3:
-        my_robot = XIRB(arduino_ip_address=sys.argv[1], router_ip_address=sys.argv[2])
+def redbot_controller():
+    """
+    Main function for arduino bridge
+    :return:
+    """
+    # noinspection PyShadowingNames
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-a", dest="w_ip_addr", default="None", help="WiFly IP Address")
+    parser.add_argument("-b", dest="robot_id", default="1", help="Values of 1-3")
+    parser.add_argument("-k", dest="handshake", default="*HELLO*", help="WiFly Handshake string")
+    parser.add_argument("-p", dest="comport", default="None", help="Arduino COM port - e.g. /dev/ttyACMO or COM3")
+    parser.add_argument('-r', dest='router_ip_address', default='None', help='Router IP Address')
+    parser.add_argument('-w', dest='w_ip_port', default='2000', help='WiFly IP Port')
+
+    args = parser.parse_args()
+    kw_options = {}
+
+    if args.w_ip_addr != 'None':
+        kw_options['arduino_ip_port'] = args.w_ip_addr
+
+    if args.robot_id != '1':
+        kw_options['robot_id'] = args.robot_id
+
+    if args.handshake != "*HELLO*":
+        kw_options['handshake'] = args.handshake
+
+    if args.comport != "None":
+        kw_options["arduino_com_port"] = args.comport
+
+    if args.router_ip_address != "None":
+        kw_options['router_ip_address'] = args.router_ip_address
+
+    if args.w_ip_port != '2000':
+        kw_options['arduino_ip_port'] = args.w_ip_port
+
+    my_robot = XIRB(**kw_options)
     my_robot.receive_loop()
 
+    # signal handler function called when Control-C occurs
+    # noinspection PyShadowingNames,PyUnusedLocal,PyUnusedLocal
+    def signal_handler(signal, frame):
+        print("Control-C detected. See you soon.")
+        sys.exit(0)
+
+    # listen for SIGINT
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+
+if __name__ == "__main__":
+
+    try:
+        redbot_controller()
+    except KeyboardInterrupt:
+        sys.exit(0)
