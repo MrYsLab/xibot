@@ -1,7 +1,7 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 
 """
-Copyright (c) 2016 Alan Yorinks All rights reserved.
+Copyright (c) 2015 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -18,6 +18,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
+import sys
 import asyncio
 
 import umsgpack
@@ -45,13 +46,12 @@ class XIRB(XideKit):
         It creates an instance of pymata_core and an instance of the redbot controller
         """
 
-
+        print('\nXiBot RedBot Controller - xirb')
         prop_defaults = {
             "subscribed": None, "robot_id": '1',
             "router_ip_address": None, "subscriber_port": '43125', "publisher_port": '43124',
             "arduino_com_port": None, "arduino_wait_time": 2, "arduino_ip_address": None,
             "arduino_ip_port": 2000, "handshake": "*HELLO*", "sleep_tune": 0.0001, "log_output": False
-
         }
 
         # setup all of the properties
@@ -216,7 +216,15 @@ class XIRB(XideKit):
             await(self.rb_control.motor_control(self.rb_control.LEFT_MOTOR,
                                                 self.rb_control.COAST, 0))
 
-
 if __name__ == '__main__':
-    my_robot = XIRB()
+    my_robot = None
+
+    if len(sys.argv) == 1:
+        my_robot = XIRB()
+    elif len(sys.argv) == 2:
+        my_robot = XIRB(arduino_ip_address=sys.argv[1])
+    elif len(sys.argv) == 3:
+        my_robot = XIRB(arduino_ip_address=sys.argv[1], router_ip_address=sys.argv[2])
+
     my_robot.receive_loop()
+
