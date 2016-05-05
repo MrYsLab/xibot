@@ -662,28 +662,28 @@ class Xitk(XideKit):
         Move robot forward
         :return:
         """
-        self.move(self.robot_number.get(), "forward", self.show_forward_speed.get())
+        self.move(self.robot_number.get(), "forward", self.adjusted_speed(self.show_forward_speed.get()))
 
     def reverse_pressed(self, event):
         """
         Move robot in reverse
         :return:
         """
-        self.move(self.robot_number.get(), "reverse", self.show_forward_speed.get())
+        self.move(self.robot_number.get(), "reverse", self.adjusted_speed(self.show_forward_speed.get()))
 
     def left_pressed(self, event):
         """
         Move robot left
         :return:
         """
-        self.move(self.robot_number.get(), "left", self.show_turn_speed.get())
+        self.move(self.robot_number.get(), "left", self.adjusted_speed(self.show_turn_speed.get()))
 
     def right_pressed(self, event):
         """
         Move robot right
         :return:
         """
-        self.move(self.robot_number.get(), "right", self.show_turn_speed.get())
+        self.move(self.robot_number.get(), "right", self.adjusted_speed(self.show_turn_speed.get()))
 
     def stop_pressed(self, event):
         """
@@ -703,14 +703,24 @@ class Xitk(XideKit):
         Spin robot to the left
         :return:
         """
-        self.move(self.robot_number.get(), "spin_left", self.show_turn_speed.get())
+        self.move(self.robot_number.get(), "spin_left", self.adjusted_speed(self.show_turn_speed.get()))
 
     def spin_right_pressed(self, event):
         """
         Spin robot to the right
         :return:
         """
-        self.move(self.robot_number.get(), "spin_right", self.show_turn_speed.get())
+        self.move(self.robot_number.get(), "spin_right", self.adjusted__peed(self.show_turn_speed.get()))
+
+    def adjusted_speed(self, selected_speed):
+        """
+        This method will scale the speed from 50 to 250
+        :param selected_speed: String value of speed slider
+        :return: Adjusted speed string
+        """
+        speed = int(selected_speed)
+        speed = (speed * 2) + 20
+        return str(speed)
 
     def forward_scale_update(self, event):
         """
